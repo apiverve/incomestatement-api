@@ -1,0 +1,125 @@
+openapi: 3.0.4
+info:
+  title: Income Statement
+  description: >-
+    Income Statement returns the profit and loss statement for a US public
+    company by ticker - revenue, cost of revenue, gross profit, operating income
+    and net income - straight from SEC filings, with gross, operating and net
+    margins and year-over-year growth calculated for you.
+  termsOfService: https://apiverve.com/terms/
+  contact:
+    name: APIVerve Support
+    email: hello@apiverve.com
+    url: https://apiverve.com/contact
+  version: 1.0.0
+externalDocs:
+  description: Learn more about APIVerve
+  url: https://docs.apiverve.com?utm_source=openapi
+servers:
+  - url: https://api.apiverve.com/
+paths:
+  /v1/incomestatement:
+    get:
+      summary: Income Statement
+      description: >-
+        Get the income statement for a company by ticker symbol. Optionally
+        filter to a specific fiscal year and quarter.
+      operationId: incomestatement
+      parameters:
+        - name: ticker
+          in: query
+          schema:
+            type: string
+          required: true
+          description: Stock ticker symbol (e.g. AAPL, MSFT, ADBE)
+          example: AAPL
+        - name: year
+          in: query
+          schema:
+            type: integer
+          required: false
+          description: >-
+            Fiscal year to retrieve. Defaults to latest available. History
+            covers only the quarters captured so far; a missing period answers
+            404 listing the available ones.
+        - name: quarter
+          in: query
+          schema:
+            type: integer
+          required: false
+          description: Fiscal quarter to retrieve. Defaults to latest available.
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: status
+                  error:
+                    type: string
+                    description: error
+                  data:
+                    type: object
+                    description: data
+              example:
+                status: ok
+                error: null
+                data:
+                  ticker: AAPL
+                  company: Apple Inc.
+                  cik: '0000320193'
+                  fiscalYear: 2026
+                  fiscalQuarter: 3
+                  filingType: 10-Q
+                  filingDate: '2026-07-31'
+                  periodEnd: '2026-06-27'
+                  income:
+                    revenue: 109417000000
+                    costOfRevenue: 54647000000
+                    grossProfit: 54770000000
+                    operatingIncome: 35695000000
+                    netIncome: 29789000000
+                    eps: 2.02
+                    epsBasic: 2.03
+                    sharesOutstanding: 14714676000
+                    sharesOutstandingBasic: 14656110000
+                    researchAndDevelopment: 11729000000
+                    sellingAndMarketing: 5034000000
+                    sellingGeneralAndAdmin: 7346000000
+                    generalAndAdmin: 2312000000
+                    interestExpense: null
+                    incomeTax: 6478000000
+                    depreciation: 9973000000
+                    stockBasedCompensation: 10523000000
+                  margins:
+                    grossMargin: 50.06
+                    operatingMargin: 32.62
+                    netMargin: 27.23
+                    effectiveTaxRate: 18.15
+                  growth:
+                    revenueYoY: null
+                    netIncomeYoY: null
+                    epsYoY: null
+                  formatted:
+                    revenue: $109.42B
+                    grossProfit: $54.77B
+                    operatingIncome: $35.70B
+                    netIncome: $29.79B
+        '401':
+          description: Your request was not authorized, or your API Key was invalid
+        '404':
+          description: Requested resource was not found
+        '500':
+          description: A server error has occurred, try again later
+components:
+  securitySchemes:
+    api_key:
+      type: apiKey
+      name: x-api-key
+      in: header
+security:
+  - api_key: []
