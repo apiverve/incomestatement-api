@@ -1,6 +1,6 @@
 name: apiverve_incomestatement
 description: "Income Statement returns the profit and loss statement for a US public company by ticker - revenue, cost of revenue, gross profit, operating income and net income - straight from SEC filings, with gross, operating and net margins and year-over-year growth calculated for you."
-version: 1.2.4
+version: 1.2.5
 homepage: https://apiverve.com/marketplace/incomestatement?utm_source=dart&utm_medium=referral&utm_content=homepage
 repository: https://github.com/apiverve/incomestatement-api/tree/main/dart
 
